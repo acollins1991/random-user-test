@@ -1,11 +1,6 @@
-import fetchMock from "jest-fetch-mock";
+import fetchMock from "fetch-mock";
 import createPeopleArray from "@/test/mock-response-data/createPeopleArray"
 
-fetchMock.enableMocks();
+global.fetch = fetchMock;
 
-fetchMock.mockResponse(req => {
-  if( !req.url.includes('https://randomuser.me/api/') ) {
-    Promise.reject(new Error('bad url'))
-  }
-  Promise.resolve(createPeopleArray(3))
-})
+fetchMock.mock( 'begin:https://randomuser.me/api/', JSON.stringify(createPeopleArray(3)))
