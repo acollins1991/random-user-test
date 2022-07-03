@@ -2,7 +2,7 @@ import fetchMock from 'fetch-mock'
 import { createLocalVue } from '@vue/test-utils'
 import Vuex, { Store } from 'vuex'
 import createPeopleArray from '../../mock-response-data/createPeopleArray'
-import { mutations, actions } from '@/store/modules/people'
+import { mutations, actions } from '~/store/people'
 
 const localVue = createLocalVue()
 

@@ -9,7 +9,7 @@ const state = (): People => []
 
 export const mutations = {
   commitAddPeople: (state: People, people: People): void => {
-    Object.assign({}, state.push(...people))
+    Object.assign(state, state.push(...people))
   },
 }
 
@@ -17,7 +17,8 @@ export const actions = {
   addPeople: async ({ commit }: any, payload: number): Promise<void> => {
     await fetch(`${randomUserEndpoint}?results=${payload}`)
       .then(async (res) => {
-        commit('commitAddPeople', await res.json())
+        const { results } = await res.json()
+        commit('commitAddPeople', results)
       })
       .catch((e) => console.warn(e))
   },
@@ -26,4 +27,5 @@ export const actions = {
 export default {
   state,
   mutations,
+  actions,
 }
