@@ -8,7 +8,7 @@ const reandomUserEndpoint = 'https://randomuser.me/api/';
 const state = (): People => []
 
 export const mutations = {
-  addPeople: (state: People, people: People): void => {
+  commitAddPeople: (state: People, people: People): void => {
     Object.assign( {}, state.push(...people) )
   }
 }

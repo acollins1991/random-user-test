@@ -3,15 +3,18 @@ import { mutations, People } from '@/store/modules/people'
 
 describe('people store module', () => {
   let state: People;
-  const {addPeople} = mutations;
+  const {commitAddPeople} = mutations;
   beforeAll(() => {
     state = [];
   })
   describe('Mutations', () => {
-    it('addPeople adds people objects, should equal three', () => {
+    it('commitAddPeople adds people objects, should equal three', () => {
       const newPeople = createPeopleArray(3);
-      addPeople(state, newPeople)
+      commitAddPeople(state, newPeople)
       expect(state.length).toEqual(3)
     })
+  })
+  describe('Actions', () => {
+
   })
 })
