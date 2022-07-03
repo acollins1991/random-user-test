@@ -1,20 +1,41 @@
+import { createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
 import createPeopleArray from '../../mock-response-data/createPeopleArray'
-import { mutations, People } from '@/store/modules/people'
+import { mutations, actions } from '@/store/modules/people'
+
+const localVue = createLocalVue()
+
+localVue.use(Vuex)
+
+// ignore typing on fetch as is mocked
+declare const fetch: any;
 
 describe('people store module', () => {
-  let state: People;
-  const {commitAddPeople} = mutations;
+  let store: any;
+  beforeEach(() => {
+    fetch.resetMocks()
+  })
   beforeAll(() => {
-    state = [];
+    store = new Vuex.Store({
+      state: () => [],
+      mutations,
+      actions
+    })
   })
   describe('Mutations', () => {
-    it('commitAddPeople adds people objects, should equal three', () => {
-      const newPeople = createPeopleArray(3);
-      commitAddPeople(state, newPeople)
-      expect(state.length).toEqual(3)
+    describe('commitAddPeople', () => {
+      it('commitAddPeople adds people objects, should equal three', () => {
+        const newPeople = createPeopleArray(3);
+        store.commit('commitAddPeople', newPeople);
+        expect(store.state.length).toEqual(3)
+      })
     })
   })
   describe('Actions', () => {
-
+    describe('addPeople', () => {
+      it('calls random user api', () => {
+        expect(fetch.mock.calls.length).toEqual(1)
+      })
+    })
   })
 })
