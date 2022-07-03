@@ -10,14 +10,13 @@ localVue.use(Vuex)
 
 describe('people store module', () => {
   let store: any
-  beforeAll(() => {
-    store = new Store({
-      state: () => [],
-      mutations,
-      actions,
-    })
-  })
   describe('Mutations', () => {
+    beforeAll(() => {
+      store = new Store({
+        state: () => [],
+        mutations,
+      })
+    })
     describe('commitAddPeople', () => {
       it('commitAddPeople adds people objects, should equal three', () => {
         const newPeople = createPeopleArray(3)
@@ -27,6 +26,16 @@ describe('people store module', () => {
     })
   })
   describe('Actions', () => {
+    const commitAddPeople = jest.fn()
+    beforeAll(() => {
+      store = new Store({
+        state: () => [],
+        mutations: {
+          commitAddPeople,
+        },
+        actions,
+      })
+    })
     describe('addPeople', () => {
       beforeAll(() => {
         store.dispatch('addPeople', 3)
@@ -35,6 +44,9 @@ describe('people store module', () => {
         expect(fetchMock.calls()[0][0]).toEqual(
           'https://randomuser.me/api/?results=3'
         )
+      })
+      it('commits the commitAddPeople mutation', () => {
+        expect(commitAddPeople).toHaveBeenCalled()
       })
     })
   })
