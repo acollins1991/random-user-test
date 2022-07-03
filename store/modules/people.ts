@@ -3,11 +3,13 @@ import { Person } from '@/test/mock-response-data/person'
 
 export type People = Array<Person>
 
+const reandomUserEndpoint = 'https://randomuser.me/api/';
+
 const state = (): People => []
 
 export const mutations = {
-  addPeople: (state: People, number: number) => {
-    return state
+  addPeople: (state: People, people: People): void => {
+    Object.assign( {}, state.push(...people) )
   }
 }
 
