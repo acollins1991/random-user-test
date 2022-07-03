@@ -31,8 +31,10 @@ describe('people store module', () => {
       beforeAll(() => {
         store.dispatch('addPeople', 3)
       })
-      it('calls random user api', () => {
-        expect(fetchMock.calls().length).toEqual(1)
+      it('calls random user api with the results=3 param', () => {
+        expect(fetchMock.calls()[0][0]).toEqual(
+          'https://randomuser.me/api/?results=3'
+        )
       })
     })
   })
