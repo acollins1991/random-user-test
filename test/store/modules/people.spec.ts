@@ -1,6 +1,4 @@
-import store, { mutations, People } from '@/store/modules/people'
-
-console.log(store)
+import { mutations, People } from '@/store/modules/people'
 
 describe('people store module', () => {
   let state: People;
