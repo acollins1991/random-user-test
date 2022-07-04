@@ -13,7 +13,7 @@
           loading="lazy"
         />
       </picture>
-      <div>{{ fullName }}</div>
+      <span class="h1">{{ fullName }}</span>
       <div>{{ person.email }}</div>
       <div>{{ person.phone }}</div>
       <div>{{ location }}</div>

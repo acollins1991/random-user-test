@@ -1,5 +1,10 @@
 # publicis-emil-test
 
+To run the project use the following commands;
+
+- npm i
+- npm run dev
+
 ## Build Setup
 
 ```bash
