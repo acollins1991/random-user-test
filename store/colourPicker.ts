@@ -1,5 +1,5 @@
 const state = () => {
-  let colour = '#FFFFFF'
+  let colour = '#f8f9fa'
 
   if (process.client && !window.localStorage.getItem('profileColour')) {
     window.localStorage.setItem('profileColour', colour)
