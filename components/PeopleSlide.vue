@@ -1,6 +1,9 @@
 <template>
   <li class="people-slide">
-    <div class="people-slide__inner">
+    <div
+      class="people-slide__inner"
+      v-bind:style="{ backgroundColor: profileColour }"
+    >
       <picture class="people-slide__thumbnail">
         <img
           v-bind:src="person.picture.large"
@@ -20,6 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 export default Vue.extend({
   props: {
     person: {
@@ -28,6 +32,9 @@ export default Vue.extend({
     },
   },
   computed: {
+    ...mapState({
+      profileColour: (state) => state.colourPicker.value,
+    }),
     fullName() {
       return `${this.person.name.title} ${this.person.name.first} ${this.person.name.last}`
     },

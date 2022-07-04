@@ -1,5 +1,6 @@
 <template>
   <div>
+    <profile-colour-picker />
     <template v-if="people">
       <people-slider v-bind:people="people" />
     </template>
