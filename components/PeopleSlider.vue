@@ -56,33 +56,37 @@ export default Vue.extend({
           loaded: true,
         },
       },
+      slideWidth: {
+        type: Number,
+        default: 0,
+      },
     }
   },
   computed: {
-    cardWidth() {
-      const slider: any = this.$refs.slider
-      const firstSlide = slider.querySelector('.js-slide')
-      return firstSlide.offsetWidth
-    },
     leftPosition() {
       return this.currentPage === 1
         ? 0
-        : `-${this.cardWidth * (this.currentPage - 1)}px`
+        : `-${this.slideWidth * (this.currentPage - 1)}px`
     },
   },
+  mounted() {
+    window.addEventListener('resize', () => {
+      this.updateSlideWidth()
+    })
+  },
   updated() {
-    if (!this.sliderInitialised) {
+    if (!this.sliderInitialised.default || !this.sliderInitialised) {
       const slider: any = this.$refs.slider
       this.initSlider(slider)
+      this.updateSlideWidth()
     }
   },
   methods: {
     ...mapActions({
       addPeople: 'people/addPeople',
     }),
-    initSlider(slider: HTMLElement) {
+    initSlider() {
       this.sliderInitialised = true
-      this.calculateSlider(slider)
     },
     loadNextPage() {
       this.addPeople(3)
@@ -96,6 +100,11 @@ export default Vue.extend({
     },
     moveToPrevPage() {
       this.currentPage = this.currentPage - 1
+    },
+    updateSlideWidth() {
+      const slider: any = this.$refs.slider
+      const firstSlide = slider.querySelector('.js-slide')
+      this.slideWidth = firstSlide.offsetWidth
     },
   },
 })
