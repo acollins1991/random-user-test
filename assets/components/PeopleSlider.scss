@@ -1,7 +1,21 @@
 .people-slider {
+  overflow-x: hidden;
+  position: relative;
+  height: 300px;
+  padding: 0 1.5rem;
   &__inner {
+    transition: left 0.2s ease-in-out;
+    position: absolute;
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+  }
+  &__pagination-wrapper {
+    position: absolute;
+    bottom: 0;
+  }
+  &__pagination-button {
+    width: 50px;
   }
 }

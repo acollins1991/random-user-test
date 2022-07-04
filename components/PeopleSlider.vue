@@ -1,22 +1,42 @@
 <template>
   <div class="people-slider">
-    <ul class="people-slider__inner">
+    <ul
+      class="people-slider__inner"
+      ref="slider"
+      v-bind:style="{ left: leftPosition }"
+    >
       <!-- ID is sometimes null so key constructed from props that should ensure uniqueness -->
       <people-slide
         v-for="person in people"
         v-bind:key="`${person.phone}-${person.email}`"
         v-bind:person="person"
+        class="js-slide"
       />
     </ul>
-    <button ref="prev">Previous</button>
-    <button ref="next">Next</button>
+    <div class="people-slider__pagination-wrapper">
+      <button
+        class="people-slider__pagination-button"
+        v-bind:disabled="currentPage === 1"
+        v-on:click="moveToPrevPage()"
+      >
+        <pagination-button-icon direction="prev" />
+      </button>
+      <button
+        class="people-slider__pagination-button"
+        v-on:click="moveToNextPage()"
+      >
+        <pagination-button-icon direction="next" />
+      </button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions } from 'vuex'
+import PaginationButton from './PaginationButtonIcon.vue'
 export default Vue.extend({
+  components: { PaginationButton },
   name: 'PeopleSlider',
   props: {
     people: {
@@ -24,25 +44,59 @@ export default Vue.extend({
       default: () => [],
     },
   },
+  data() {
+    return {
+      sliderInitialised: {
+        type: Boolean,
+        default: false,
+      },
+      currentPage: 1,
+      pages: {
+        1: {
+          loaded: true,
+        },
+      },
+    }
+  },
   computed: {
-    pagination() {
-      return {
-        current: 1,
-        totalPeopleLoaded: 3,
-        totalPages: 1,
-      }
+    cardWidth() {
+      const slider: any = this.$refs.slider
+      const firstSlide = slider.querySelector('.js-slide')
+      return firstSlide.offsetWidth
+    },
+    leftPosition() {
+      return this.currentPage === 1
+        ? 0
+        : `-${this.cardWidth * (this.currentPage - 1)}px`
     },
   },
-  mounted() {
-    const nextButton: any = this.$refs.next
-    nextButton.addEventListener('click', () => {
-      this.addPeople(3)
-    })
+  updated() {
+    if (!this.sliderInitialised) {
+      const slider: any = this.$refs.slider
+      this.initSlider(slider)
+    }
   },
   methods: {
     ...mapActions({
       addPeople: 'people/addPeople',
     }),
+    initSlider(slider: HTMLElement) {
+      this.sliderInitialised = true
+      this.calculateSlider(slider)
+    },
+    loadNextPage() {
+      this.addPeople(3)
+    },
+    moveToNextPage() {
+      if (!this.pages[this.currentPage + 1]) {
+        this.loadNextPage()
+        this.pages[this.currentPage + 1] = { loaded: true }
+      }
+      this.currentPage = this.currentPage + 1
+    },
+    moveToPrevPage() {
+      this.currentPage = this.currentPage - 1
+    },
   },
 })
 </script>

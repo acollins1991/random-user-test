@@ -1,6 +1,8 @@
 <template>
   <div>
-    <people-slider v-bind:people="people" />
+    <template v-if="people">
+      <people-slider v-bind:people="people" />
+    </template>
   </div>
 </template>
 
@@ -20,11 +22,6 @@ export default Vue.extend({
       addPeople: 'people/addPeople',
     }),
   },
-  // computed: {
-  //   ...mapState({
-  //     people: (state) => state.people,
-  //   }),
-  // },
   mounted() {
     this.addPeople(3)
   },

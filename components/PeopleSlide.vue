@@ -1,18 +1,20 @@
 <template>
   <li class="people-slide">
-    <picture class="people-slide__thumbnail">
-      <img
-        v-bind:src="person.picture.large"
-        v-bind:alt="`Profile picture for ${fullName}`"
-        width="128"
-        height="128"
-        loading="lazy"
-      />
-    </picture>
-    <div>{{ fullName }}</div>
-    <div>{{ person.email }}</div>
-    <div>{{ person.phone }}</div>
-    <div>{{ location }}</div>
+    <div class="people-slide__inner">
+      <picture class="people-slide__thumbnail">
+        <img
+          v-bind:src="person.picture.large"
+          v-bind:alt="`Profile picture for ${fullName}`"
+          width="128"
+          height="128"
+          loading="lazy"
+        />
+      </picture>
+      <div>{{ fullName }}</div>
+      <div>{{ person.email }}</div>
+      <div>{{ person.phone }}</div>
+      <div>{{ location }}</div>
+    </div>
   </li>
 </template>
 
