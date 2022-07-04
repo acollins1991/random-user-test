@@ -60,25 +60,28 @@ export default Vue.extend({
         type: Number,
         default: 0,
       },
+      slidesToShow: {
+        type: Number,
+        default: 1,
+      },
     }
   },
   computed: {
     leftPosition() {
       return this.currentPage === 1
         ? 0
-        : `-${this.slideWidth * (this.currentPage - 1)}px`
+        : `-${this.slideWidth * this.slidesToShow * (this.currentPage - 1)}px`
     },
   },
   mounted() {
     window.addEventListener('resize', () => {
+      this.updateSlidesToShow()
       this.updateSlideWidth()
     })
   },
   updated() {
     if (!this.sliderInitialised.default || !this.sliderInitialised) {
-      const slider: any = this.$refs.slider
-      this.initSlider(slider)
-      this.updateSlideWidth()
+      this.initSlider()
     }
   },
   methods: {
@@ -87,6 +90,8 @@ export default Vue.extend({
     }),
     initSlider() {
       this.sliderInitialised = true
+      this.updateSlidesToShow()
+      this.updateSlideWidth()
     },
     loadNextPage() {
       this.addPeople(3)
@@ -105,6 +110,15 @@ export default Vue.extend({
       const slider: any = this.$refs.slider
       const firstSlide = slider.querySelector('.js-slide')
       this.slideWidth = firstSlide.offsetWidth
+    },
+    updateSlidesToShow() {
+      let slidesToShow = 3
+      if (window.innerWidth < 520) {
+        slidesToShow = 1
+      } else if (window.innerWidth < 760) {
+        slidesToShow = 2
+      }
+      this.slidesToShow = slidesToShow
     },
   },
 })
