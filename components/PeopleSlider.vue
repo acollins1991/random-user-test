@@ -1,7 +1,12 @@
 <template>
-  <div>
-    <ul>
-      <li v-for="person in people" v-bind:key="person.email">test</li>
+  <div class="people-slider">
+    <ul class="people-slider__inner">
+      <!-- ID is sometimes null so key constructed from props that should ensure uniqueness -->
+      <people-slide
+        v-for="person in people"
+        v-bind:key="`${person.phone}-${person.email}`"
+        v-bind:person="person"
+      />
     </ul>
     <button ref="prev">Previous</button>
     <button ref="next">Next</button>
