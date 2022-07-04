@@ -2,7 +2,7 @@
   <li class="people-slide">
     <div
       class="people-slide__inner"
-      v-bind:style="{ backgroundColor: profileColour }"
+      v-bind:style="{ backgroundColor: getColour }"
     >
       <picture class="people-slide__thumbnail">
         <img
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 export default Vue.extend({
   props: {
     person: {
@@ -32,9 +32,6 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...mapState({
-      profileColour: (state) => state.colourPicker.value,
-    }),
     fullName() {
       return `${this.person.name.title} ${this.person.name.first} ${this.person.name.last}`
     },
@@ -43,6 +40,9 @@ export default Vue.extend({
       const { location } = person
       return `${location.street.number} ${location.street.name}, ${location.city}, ${location.country}, ${location.postcode}`
     },
+    ...mapGetters({
+      getColour: 'colourPicker/getColour',
+    }),
   },
 })
 </script>
